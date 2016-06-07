@@ -1,0 +1,17 @@
+P=(ID=32365 N=(ls) T=0.010000)
+C1 FN0=(F0=(/lib/tls/libc.so.6)+87962 N=(__libc_start_main))+218
+C2 FN1=(F1=(ls)+8661 N=(strcoll))+2753
+C3 FN2=(F1+14168 N=(strftime))+8740
+C4 FN3=(F1+19717 N=(@?0x804cd05))+0
+C5 FN4=(F0+171919 N=(qsort))+143
+C6 FN5=(F0+171435 N=(@?0x13adab))+0
+C7 FN5+0
+C8 FN5+0
+C9 FN6=(F0+171396 N=(@?0x13ad84))+0
+C10 FN5+0
+C11 FN5+0
+C12 FN7=(F0+171552 N=(@?0x13ae20))+0
+C13 FN8=(F1+19068 N=(@?0x804ca7c))+0
+C14 FN9=(F1+17715 N=(@?0x804c533))+0 V0=(PERF_TICKS):(1,1,1)
+C3 FN2+8334 V0:(1,1,1)
+C3 FN2+8538
