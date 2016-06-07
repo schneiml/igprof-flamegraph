@@ -100,14 +100,13 @@ int main() {
     Iterator h_it = head.begin();
     auto info = parse_kw(h_it, head.end(), 10);
     int base = 10;
-   if (!info.first || !info.second.def) exit(1);
-   if (info.second.value.at(0).kw == "HEX") base = 16;
+    if (!info.first || !info.second.def) exit(1);
+    if (info.second.value.at(0).kw == "HEX") base = 16;
    
-   std::vector<std::string*> stack;
-   stack.resize(1024);
-   std::map<int, KW> fns;
+    std::vector<std::string*> stack;
+    stack.resize(1024);
+    std::map<int, KW> fns;
    
-    
     while (std::cin) {
         std::string line;
         std::getline(std::cin, line);
