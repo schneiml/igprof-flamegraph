@@ -37,8 +37,8 @@ std::pair<bool, std::array<int64_t, 3>> parse_ctrs(Iterator begin, Iterator end,
 std::pair<bool, KW> parse_kw(Iterator& begin, Iterator end, int base) {
     KW out;
     out.fvalue = 0.0;
-    //                     1:KW     2:id     3:data 4           5:sub   6:num 7
-    static std::regex kw("([A-Z]+)([0-9a-f]*)(=\\(([^ )=]*)\\))?(=\\()?(=([0-9.-]+))?.*");
+    //                    1:KW    2:id       3:data 4           5:sub    6:num 7
+    static std::regex kw("([A-Z]+)([0-9a-f]*)(=\\(([^ )=]*)\\))?(=\\()?(=([0-9a-f.-]+))?.*");
     static std::regex tail("((:\\([^)]+\\))?([^ ()=:]*)\\s*).*");
     std::smatch sm;
     auto ok = std::regex_match(begin, end, sm, kw);
@@ -56,7 +56,11 @@ std::pair<bool, KW> parse_kw(Iterator& begin, Iterator end, int base) {
         if (begin == end || *begin != ')') return std::make_pair(false, out);
         ++begin;
     } else if (sm[6].length() > 0) {
-        out.fvalue = std::stof(sm[7].str());
+        try {
+            out.fvalue = std::stof(sm[7].str());
+        } catch (...) {
+            out.fvalue = std::stoul(sm[7].str(), nullptr, 16);
+        }
         begin = sm[6].second;
     } else if (sm[3].length() > 0) {
         out.data = sm[4].str();
@@ -100,7 +104,10 @@ int main() {
     Iterator h_it = head.begin();
     auto info = parse_kw(h_it, head.end(), 10);
     int base = 10;
-    if (!info.first || !info.second.def) exit(1);
+    if (!info.first || !info.second.def) {
+        std::cerr << "Parse error: " << std::string(head.cbegin(), h_it) << "_" << std::string(h_it, head.cend()) << "\n";
+        exit(1);
+    }
     if (info.second.value.at(0).kw == "HEX") base = 16;
    
     std::vector<std::string*> stack;
